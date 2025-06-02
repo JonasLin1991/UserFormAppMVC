@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - UserFormApp</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+
+</head>
+
+
+<body>
+    <header class="bg-light p-3 mb-4 border-bottom shadow-sm">
+        <div class="container d-flex justify-content-between aling-items-center">
+
+            <h1 class="txet-primary mb-0">🌐 UserFormApp</h1>
+            <nav>
+
+
+                <a class="btn btn-outline-primary me-2" href="/User/List">會員清單</a>
+                <a class="btn btn-outline-success me-2" href="/User/Register">註冊</a>
+                <a class="btn btn-outline-secondary me-2" href="/User/Login">登入</a>
+                <a class="btn btn-outline-danger me-2" href="/User/Logout">登出</a>
+                <a class="btn btn-outline-danger me-2" href="/User/MemberCenter">會員中心</a>
+
+
+
+            </nav>
+        </div>
+
+    </header>
+
+
+
+    <main class="container text-center mt-5">
+        @* ✅ TempData 訊息顯示在主內容上方 *@
+        
+        @if (TempData["Message"] != null)
+        {
+            string message = TempData["Message"].ToString();
+            bool isSuccess = message.StartsWith("v");
+            <div class="alert @(isSuccess ? "alert-success" : "alert-danger") text-center">
+                @message
+            </div>
+        }
+        <h1 class="display-4 mb-3">Welcome</h1>
+        <p class="lead">
+            Learn about <a href="https://learn.microsoft.com/aspnet/core" class="link-primary">building Web apps with ASP.NET Core</a>.
+
+        </p>
+        @RenderBody()
+    </main>
+
+
+    <footer class="text-center mt-5 text-muted">
+
+        <hr/>
+        <p>&copy; 2025 - UserFormApp</p>
+    </footer>
+
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+    @RenderSection("Scripts", required: false)
+
+
+
+
+ </body>
+
+
+
+
+
+
+
+</html>

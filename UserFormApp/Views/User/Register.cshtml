@@ -1,0 +1,78 @@
+﻿@using Azure.Core
+@model UserModel
+
+
+@{
+    ViewData["Title"] = "會員註冊";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">會員註冊</h2>
+
+    @* 顯示註冊成功訊息 *@
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success text-center">@ViewBag.Message</div>
+    }
+
+
+    <form asp-action="Register" method="post" class="w-50 mx-auto">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Age" class="form-label"></label>
+            <input asp-for="Age" class="form-control" type="number"/>
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+
+        <div class="mb-3">
+            <label asp-for="Password"class="form-label"></label>
+            <input asp-for="Password"class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+          
+        </div>
+
+
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword"class="form-label"></label>
+            <input asp-for="ConfirmPassword"class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label ">@ViewBag.CaptchaQuestion</label>
+            <input type="text" name="CaptchaInput" class="form-control"
+                   value="@(Context.Request.HasFormContentType ? Context.Request.Form["CaptchaInput"] : "")" />
+
+            @if (ViewBag.CaptchaError != null)
+            {
+                <div class="text-danger">@ViewBag.CaptchaError</div>
+            }
+        </div>
+
+
+    <button type="submit"  class="btn btn-primary w-100">送出</button>
+
+
+</form>
+
+@section Scripts{
+        <partial name="_ValidationScriptsPartial" />
+    }
+

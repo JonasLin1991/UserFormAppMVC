@@ -1,0 +1,17 @@
+﻿<h2>登入畫面</h2>
+
+<form asp-action="Login" method="post">
+    <div>
+        <label>Email：</label>
+        <input type="email" name="email" />
+    </div>
+
+    <div>
+        <label>密碼：</label>
+        <input type="password" name="password" />
+    </div>
+
+    <button type="submit">登入</button>
+
+    <p style="color:red">@ViewBag.Message</p>
+</form>

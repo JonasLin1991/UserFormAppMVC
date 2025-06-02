@@ -1,0 +1,28 @@
+﻿@model UserModel
+@{
+    ViewData["Title"] = "確認刪除";
+
+}
+
+<div class="container mt-5 text-center">
+    <h2 class="text-danger mb-4"> 確定要刪除這筆會員資料嗎?</h2>
+
+
+     <div class="mb-4">
+            <p><strong>姓名: </strong>@Model.Name</p>
+            <p><strong>年齡: </strong>@Model.Age</p>
+            <p><strong>Email: </strong>@Model.Email</p>
+
+         </div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    
+    <button type="submit" class="btn btn-danger me-3">確認刪除</button>
+    <a asp-action="List" class="btn btn-secondary">取消</a>
+
+
+
+
+
+</form>

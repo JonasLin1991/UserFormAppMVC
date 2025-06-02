@@ -1,0 +1,141 @@
+﻿@model List<UserModel>   //使用者清單
+@{
+    var totalPages = (int)ViewBag.TotalPages;
+    var currentPage = (int)ViewBag.CurrentPage;
+    var keyword = ViewBag.Keyword as string;
+    var sort = ViewBag.Sort as string;
+}
+
+@* 外框:Bootstrap 容器+標題 *@
+@*container: Bottstrap的版面寬度容器  (有左右留白)*@
+@*mt-5: margin-top (上方留空間)*@
+@*mb-4 : margin-bottom(標題下留空間)*@
+@*text-center : 讓會員清單 置中*@
+
+<div class="container mt-5"> 
+    <h2 class="mb-4 text-center">會員清單</h2> 
+
+
+    @*顯示訊息(TempData) 顯示修改成功/刪除成功*@
+    @*TempData一次性資料(當下請求有效)*@
+    @*alert alert-success 是Bootstrap綠色提示框*@
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success text-center">
+            ✅@TempData["Message"]
+        </div>
+    }
+
+
+    @*收尋*@
+    <form method="get" class="row g-3 mb-4">
+
+
+
+        <div class="col-md-4">
+            <input type="text" name="keyword" class="form-control" placeholder="搜尋姓名" value="@keyword"/>
+        </div>
+        <div class="col-md-4">
+            <select name="sort" class="form-select">
+                <option value="">排序 : 姓名(升序)</option>
+                <option value="name_desc" selected="@(sort == "name_desc")">姓名(降序)</option>
+                <option value="age"selected="@(sort =="age_desc")">年齡(升序)</option>
+                <option value="age_desc"selected="@(sort=="age_desc")">年齡(降序)</option>
+            </select>
+        </div>
+
+
+        <div class="col-md-4">
+            <button type="submit"class="btn btn-primary w-100">搜尋</button>
+        </div>
+
+
+    </form>
+
+    <table class ="table table-bordered table-striped text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                    <a asp-action="List" asp-route-sort="@(sort == "name_desc" ? "" : "name_desc")" asp-route-keyword="@keyword" class="text-white text-decoration-none">姓名</a>
+                </th>
+                <th>
+                    <a asp-action="List" asp-route-sort="@(sort == "age" ? "age_desc" : "age")" asp-route-keyword="@keyword" class="text-white text-decoration-none">年齡</a>
+                </th>
+                <th>Email</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+
+
+
+        <tbody>
+
+            @if (!Model.Any())
+            {
+                
+
+                    <tr>
+                        <td colspan="4" class="text-danger"> 查無符合條件的會員資料</td>
+                    </tr>
+            }
+            @foreach(var user in Model)
+            {
+                <tr>
+            <td>@user.Name</td>
+            <td>@user.Age</td>
+            <td>@user.Email</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-warning m-1">✏️ 修改</a>
+                <a asp-action="Delete" asp-route-id="@user.Id"class="btn btn-sm btn-danger">🗑️ 刪除</a>
+
+            </td>
+          
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+<div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+
+                @* 上一頁 *@
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="List"
+                       asp-route-page="@(currentPage - 1)"
+                       asp-route-sort="@sort"
+                       asp-route-keyword="@keyword">上一頁</a>
+                </li>
+
+                @* 中間頁數 *@
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(i == currentPage ? "active" : "")">
+                        <a class="page-link"
+                           asp-action="List"
+                           asp-route-page="@i"
+                           asp-route-sort="@sort"
+                           asp-route-keyword="@keyword">@i</a>
+                    </li>
+                }
+
+                @* 下一頁 *@
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="List"
+                       asp-route-page="@(currentPage + 1)"
+                       asp-route-sort="@sort"
+                       asp-route-keyword="@keyword">下一頁</a>
+                </li>
+            </ul>
+        </nav>
+
+</div>
+
+
+
+
+
